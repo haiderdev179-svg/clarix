@@ -56,3 +56,9 @@ pnpm add -D drizzle-kit@rc tsx @types/pg
 # Created script is package.json
 "migration:generate": "npx drizzle-kit generate --config=drizzle.config.ts",
 "migration:migrate": "npx drizzle-kit migrate --config=drizzle.config.ts"
+
+# Enabled email & password in lib/auth.ts
+   emailAndPassword: {
+    enabled: true,
+   },
+
