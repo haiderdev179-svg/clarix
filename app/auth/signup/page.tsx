@@ -29,6 +29,7 @@ import { FieldError, FieldGroup } from "@/components/ui/field";
 import { GithubIcon, GoogleIcon } from "../icons";
 import { authClient } from "@/lib/authClient";
 
+
 const signupSchema = z.object({
   username: z.string().min(3, "Username must be at least 3 characters"),
   email: z.email("Invalid email address"),
@@ -42,6 +43,8 @@ export default function SignupForm() {
   const [pendingProvider, setPendingProvider] = useState<SocialProvider | null>(
     null,
   );
+
+  const [isLoading, setIsLoading] = useState<boolean>(false); 
 
   const form = useForm({
     defaultValues: { username: "", email: "", password: "" },
@@ -59,22 +62,22 @@ export default function SignupForm() {
           callbackURL: "/",
         },
         {
-          onRequest: ()=> {
-
-          }
-        },
-        {
-          onSuccess: ()=> {
-
-          }
-        },
-        {
+          onRequest: (ctx)=> {
+             setIsLoading(true);
+          },
+          onSuccess: (ctx)=> {
+            setIsLoading(false),
+            toast.success("Account created successfully😀"),
+            router.push('/');
+          },
           onError: (ctx)=> {
-            alert(ctx.error.message)
+            setIsLoading(false),
+            //todo: server side errors should not exposed here
+            toast.error(ctx.error.message || "Registeration Failed😟");
           }
+          
         }, 
       )
-    console.log(data);
 
     },
   });
@@ -263,7 +266,7 @@ export default function SignupForm() {
                     className="mt-2 h-13 w-full rounded-full bg-[#ececec] text-[16px] font-semibold text-black hover:bg-white disabled:opacity-50"
                     disabled={!canSubmit || !isDirty}
                   >
-                    {isSubmitting ? (
+                    {(isSubmitting || isLoading) ? (
                       <Loader2 className="size-5 animate-spin" />
                     ) : (
                       "Sign Up"
