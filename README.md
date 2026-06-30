@@ -34,3 +34,25 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+<!-- -------------------------------------------------- -->
+## Setup Frontend Ui
+
+# SEtup Docker
+
+# Installed Drizzle + Drizzle dependencies
+pnpm add drizzle-orm@rc pg
+pnpm add -D drizzle-kit@rc tsx @types/pg
+
+# Connect Drizzle ORM to the database
+
+# Create Database tables
+ npx @better-auth/cli generate
+  npx @better-auth/cli migrate
+
+#  Create & Setup drizzle.config.ts
+
+# Created script is package.json
+"migration:generate": "npx drizzle-kit generate --config=drizzle.config.ts",
+"migration:migrate": "npx drizzle-kit migrate --config=drizzle.config.ts"
