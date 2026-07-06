@@ -29,18 +29,52 @@ const formSchema = z.object({
 type SocialProvider = "google" | "github";
 import { useState } from "react";
 import { useForm } from "@tanstack/react-form";
+import { authClient } from "@/lib/authClient";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
+    const router = useRouter();
+
   const [pendingProvider, setPendingProvider] = useState<SocialProvider | null>(
     null,
   );
+
+    const [isLoading, setIsLoading] = useState<boolean>(false); 
+
 
   const form = useForm({
     defaultValues: { email: "", password: "" },
     validators: {
       onChange: formSchema,
     },
-    onSubmit: async ({ value }) => {},
+    onSubmit: async ({ value }) => {
+       console.log('value', value)
+ 
+      const { data, error } = await authClient.signIn.email(
+        {
+          email: value.email,
+          password: value.password,
+          callbackURL: "/",
+        },
+        {
+          onRequest: (ctx)=> {
+             setIsLoading(true);
+          },
+          onSuccess: (ctx)=> {
+            setIsLoading(false);
+            toast.success("Logged In Successfully🥳");
+            router.push('/');
+          },
+          onError: (ctx)=> {
+            setIsLoading(false);
+            //todo: server side errors should not exposed here
+            toast.error(ctx.error.message || "Invalid Credientials😟");
+          }
+          
+        }, 
+      );
+    },
   });
 
   return (
@@ -201,7 +235,7 @@ export default function LoginForm() {
                     className="mt-2 h-13 w-full rounded-full bg-[#ececec] text-[16px] font-semibold text-black hover:bg-white active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#ececec]"
                     disabled={!canSubmit || !isDirty}
                   >
-                    {isSubmitting ? (
+                    {(isSubmitting || isLoading) ? (
                       <Loader2 className="size-5 animate-spin" />
                     ) : (
                       "Continue"

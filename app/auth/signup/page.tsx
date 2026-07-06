@@ -66,12 +66,12 @@ export default function SignupForm() {
              setIsLoading(true);
           },
           onSuccess: (ctx)=> {
-            setIsLoading(false),
-            toast.success("Account created successfully😀"),
+            setIsLoading(false);
+            toast.success("Account created successfully😀");
             router.push('/');
           },
           onError: (ctx)=> {
-            setIsLoading(false),
+            setIsLoading(false);
             //todo: server side errors should not exposed here
             toast.error(ctx.error.message || "Registeration Failed😟");
           }
