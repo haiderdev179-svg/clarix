@@ -20,12 +20,23 @@ import { Button } from "@/components/ui/button";
 
 import { UpgradeComponent } from "@/components/upgrade-component";
 import { ModelSelectorComponent } from "@/components/model-selector";
+import { auth } from "@/lib/auth";
 
 export default async function ChatPageLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const session = await auth.api.getSession({
+    headers: await headers()
+  });
+
+  if(!session) {
+    redirect("/auth/signin");
+  }
+
+
 
   return (
       <SidebarProvider>
