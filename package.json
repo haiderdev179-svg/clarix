@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@langchain/core": "^1.2.1",
+    "@langchain/google-genai": "^2.2.0",
     "@langchain/langgraph": "^1.4.7",
     "@langchain/openai": "^1.5.3",
     "@radix-ui/react-use-controllable-state": "^1.2.2",

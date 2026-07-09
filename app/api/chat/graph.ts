@@ -1,10 +1,14 @@
 import { END, GraphNode, START, StateGraph } from "@langchain/langgraph";
 import { MessagesState } from "./state";
-import { SystemMessage } from "@langchain/core/messages";
-import { llmModel } from "./model";
+import { SystemMessage } from "@langchain/core/messages"
+import { getDynamicModel } from "./model";
 
 const llmCall: GraphNode<typeof MessagesState> = async (state) => {
-  const response = await llmModel.invoke([
+  
+  //todo: receive this model id from frontend
+  const model = getDynamicModel("gemini-2.5-flash-lite");
+
+  const response = await model.invoke([
     new SystemMessage("You are a helpful assistant."),
     ...state.messages,
   ]);

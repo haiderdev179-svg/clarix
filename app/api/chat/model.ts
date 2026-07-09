@@ -1,9 +1,88 @@
 import { ChatOpenAI} from "@langchain/openai";
+import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 
-export const llmModel = new ChatOpenAI({
-    model: "gpt-5-mini",
-    maxTokens: undefined,
-    timeout: undefined,
-    maxRetries: 2,
-    apiKey: process.env.OPENAI_API_KEY,
-});
+type ModelProvider =  'openai' | 'google' | 'anthropic';
+type ModelTier = 'free' | 'subscription' ;
+
+type ModelId = 'gpt-5-mini' | 'gpt-5-nano' | 'gemini-3.1-pro-preview' | 'gemini-2.5-flash-lite';
+
+type ModelConfig = {
+    provider: ModelProvider;
+    tier: ModelTier;
+    options?: Record<string, unknown>
+}
+
+const MODEL_REGISTRY : Record<ModelId, ModelConfig> = {
+    'gpt-5-mini': {
+        provider: 'openai',
+        tier: 'free',
+        options: {reasoning: {effort: 'minimal'}},
+    },
+    'gpt-5-nano': {
+        provider: 'openai',
+        tier: 'free',
+        options: { reasoning: { effort: 'minimal' } },
+    },
+    'gemini-3.1-pro-preview': {
+        provider: 'google',
+        tier: 'subscription',
+        options: {temperature: 0}
+    },
+    'gemini-2.5-flash-lite': {
+        provider: 'google',
+        tier: 'free',
+        options: {temperature: 0}
+    },
+};
+
+// export const llmModel = new ChatOpenAI({
+//     model: "gpt-5-mini",
+//     maxTokens: undefined,
+//     timeout: undefined,
+//     maxRetries: 2,
+//     apiKey: process.env.OPENAI_API_KEY,
+// });
+
+function getDefaultModel(){
+    return new ChatOpenAI({
+        model: "gpt-5-nano",
+        maxTokens: undefined,
+        timeout: undefined,
+        maxRetries: 2,
+        apiKey: process.env.OPENAI_API_KEY,
+    });
+};
+
+function createModel(modelId: ModelId, config: ModelConfig){
+    const base = {model: modelId, ...config.options}
+  
+    if(config.provider === 'openai'){
+        return new ChatOpenAI({
+          ...base, 
+          apiKey: process.env.OPENAI_API_KEY,
+        });
+    } else if (config.provider === 'google'){
+        return new ChatGoogleGenerativeAI({
+            ...base,
+            apiKey: process.env.GEMINI_API_KEY
+        });
+    } else if (config.provider === 'anthropic'){
+        //create anthropic chat instance
+        return getDefaultModel();
+    } else {
+        //todo: maybe error?
+        return getDefaultModel();
+    };
+};
+
+export function getDynamicModel(modelId: ModelId){
+  const config = MODEL_REGISTRY[modelId];
+
+  if(!config) return getDefaultModel();
+
+  if(config.tier === 'subscription'){
+    //todo: get subscription information from db  
+  };
+
+  return createModel(modelId, config);
+};
