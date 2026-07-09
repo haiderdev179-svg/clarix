@@ -62,3 +62,7 @@ pnpm add -D drizzle-kit@rc tsx @types/pg
     enabled: true,
    },
 
+# ======= Missed few commits will update later
+
+# using ai sdk for streaming
+pnpm add @ai-sdk/react

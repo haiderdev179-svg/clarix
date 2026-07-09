@@ -10,8 +10,13 @@ import {
   PromptInputTextarea,
 } from "@/components/ai-elements/prompt-input";
 import { SpeechInput } from "@/components/ai-elements/speech-input";
+import { useState } from "react";
+import { useChat } from "@ai-sdk/react";
 
 function InputContainer() {
+
+  const [input, setInput] = useState('');
+  const {messages, sendMessage} = useChat(); 
 
   return (
     <div className="flex flex-col items-center w-full max-w-200 mx-auto pb-6">
@@ -19,6 +24,8 @@ function InputContainer() {
         className="w-full bg-[#2f2f2f] rounded-[32px]"
         onSubmit={(message) => {
           console.log(message);
+
+          sendMessage({ text: message.text});
         }}
       >
         <PromptInputBody className="flex items-end w-full">
@@ -31,9 +38,12 @@ function InputContainer() {
 
           <div className="flex-1 min-w-0 items-center justify-center w-full h-full">
             <PromptInputTextarea
-              onChange={(e) => {}}
-              value={""}
-              placeholder="Ask anything"
+              onChange={(e) => {
+                console.log(e.target.value);
+                setInput(e.target.value);
+              }} //19:40
+              value={input}
+              placeholder=  "Ask anything"
               className="w-full flex items-center justify-center bg-transparent border-none focus:ring-0 focus-visible:ring-0 py-3 text-[18px] text-zinc-100 placeholder:text-[#676767] resize-none min-h-11 max-h-50 leading-tight"
             />
           </div>

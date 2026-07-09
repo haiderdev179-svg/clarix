@@ -2,6 +2,11 @@ import { HumanMessage } from "@langchain/core/messages";
 import { agent } from "./graph";
 
 export async function POST(request: Request) {
+
+  const data = await request.json()
+
+  console.log({data});
+//21:00
   const result = await agent.invoke({
     messages: [new HumanMessage("hi how are you ?")],
   });

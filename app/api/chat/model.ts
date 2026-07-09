@@ -4,7 +4,7 @@ import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 type ModelProvider =  'openai' | 'google' | 'anthropic';
 type ModelTier = 'free' | 'subscription' ;
 
-type ModelId = 'gpt-5-mini' | 'gpt-5-nano' | 'gemini-3.1-pro-preview' | 'gemini-2.5-flash-lite';
+type ModelId = 'gpt-5-mini' | 'gpt-5-nano' | 'gemini-3.1-pro-preview' | 'gemini-2.5-flash';
 
 type ModelConfig = {
     provider: ModelProvider;
@@ -28,20 +28,12 @@ const MODEL_REGISTRY : Record<ModelId, ModelConfig> = {
         tier: 'subscription',
         options: {temperature: 0}
     },
-    'gemini-2.5-flash-lite': {
+    'gemini-2.5-flash': {
         provider: 'google',
         tier: 'free',
         options: {temperature: 0}
     },
 };
-
-// export const llmModel = new ChatOpenAI({
-//     model: "gpt-5-mini",
-//     maxTokens: undefined,
-//     timeout: undefined,
-//     maxRetries: 2,
-//     apiKey: process.env.OPENAI_API_KEY,
-// });
 
 function getDefaultModel(){
     return new ChatOpenAI({
