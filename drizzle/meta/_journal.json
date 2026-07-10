@@ -8,6 +8,13 @@
       "when": 1782817567882,
       "tag": "0000_yielding_medusa",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1783702119453,
+      "tag": "0001_omniscient_rhino",
+      "breakpoints": true
     }
   ]
 }

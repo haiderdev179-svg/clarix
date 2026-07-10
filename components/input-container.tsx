@@ -1,6 +1,5 @@
 "use client";
 
-import { v4 as uuidv4 } from "uuid";
 import { useParams, useRouter } from "next/navigation";
 import { Plus, AudioLines, ArrowUp } from "lucide-react";
 
@@ -13,6 +12,11 @@ import { SpeechInput } from "@/components/ai-elements/speech-input";
 import { useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
+
+//uuid
+import{ v4 as uuidv4 } from 'uuid';
+import { threadId } from "worker_threads";
+const id = uuidv4();
 
 function InputContainer() {
 
@@ -34,6 +38,7 @@ function InputContainer() {
         return {
           body: {
             messageContent: lastMessageText,
+            threadId: id,
           },
         };
     },
