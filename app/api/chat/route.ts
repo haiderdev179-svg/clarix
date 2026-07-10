@@ -5,10 +5,10 @@ export async function POST(request: Request) {
 
   const data = await request.json()
 
-  console.log({data});
-//21:00
+  // console.log({data});
+
   const result = await agent.invoke({
-    messages: [new HumanMessage("hi how are you ?")],
+    messages: [new HumanMessage(data.messageContent)],
   });
 
   for (const message of result.messages) {
@@ -16,4 +16,4 @@ export async function POST(request: Request) {
   }
 
   return Response.json({ message: "ok" });
-}
+};
