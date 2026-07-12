@@ -18,6 +18,7 @@ export async function POST(request: Request) {
     return new Response("Forbidden: You don't have access to this response☹️", {status: 403})
   };
 
+
   //todo: check if thread exists if not create a new one
 
   //here we are checking if the thread.id from schema/database is equal to the threadId that we are getting from the user/frontend
@@ -55,5 +56,6 @@ export async function POST(request: Request) {
     console.log(`[${message.type}]: ${message.text}`);
   }
 
+  //todo: Here we have the return the real ai response
   return Response.json({ message: "ok" });
 };
