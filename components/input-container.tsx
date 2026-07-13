@@ -16,29 +16,42 @@ import { DefaultChatTransport } from "ai";
 //uuid
 import{ v4 as uuidv4 } from 'uuid';
 import { threadId } from "worker_threads";
-const id = uuidv4();
 
 function InputContainer() {
 
   const [input, setInput] = useState('');
-  
+
+  //Using useRouter() for redirecting the user to new thread conversation page after enter any word or keyword
+  const router = useRouter();  //Note: useRouter() runs on client side
+
+  const params = useParams();
+ 
+  //getting the thread_id of current page 
+  const finalThreadUrlId = params.thread_id; //this will return undefined if the user is on home page 
+
+  //generatedId  add to finalThreadId, if not generate a new random uuid
+ const [generatedId] = useState(() => uuidv4());
+
+ const finalThreadId = finalThreadUrlId || generatedId;
+
   //here we are customising useChat hook using transport
   const { messages, sendMessage } = useChat({
     id: "default",
     transport: new DefaultChatTransport({
       api: "/api/chat",
-      prepareSendMessagesRequest: ({ id, messages, messageId }) => {
+      prepareSendMessagesRequest: ({ id, messages, messageId, body }) => {
         const lastMessage = messages.slice(-1);
 
         let lastMessageText = "";
-        if (lastMessage[0].parts[0].type === "text") {
-          lastMessageText = lastMessage[0].parts[0].text;
-        }
+       const part = lastMessage[0]?.parts?.[0];
+       if (part?.type === "text") {
+         lastMessageText = part.text;
+       };
 
         return {
           body: {
             messageContent: lastMessageText,
-            threadId: id,
+            threadId: body?.threadId,
           },
         };
     },
@@ -51,9 +64,18 @@ return (
     <PromptInput
       className="w-full bg-[#2f2f2f] rounded-[32px]"
       onSubmit={async (message) => {
+        if(!message.text) return;
         try {
-          await sendMessage({ text: message.text });
-          setInput(""); // add this
+          await sendMessage(message, {
+            body: {
+              threadId: finalThreadId,
+            }
+          });
+          setInput("");
+          // we are on home page, Redirecting to the new thread id
+          if (!finalThreadUrlId) {
+            router.push(`/chat/${finalThreadId}`);
+          }
         } catch (err) {
           console.error("sendMessage error:", err);
         }
@@ -61,7 +83,7 @@ return (
     >
       <PromptInputBody className="flex items-end w-full">
         <button
-          type="button"
+          type="button" 
           className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-[#b4b4b4] hover:bg-[#3f3f3f] transition-colors mb-0.5"
         >
           <Plus size={24} strokeWidth={1.5} />
@@ -70,7 +92,7 @@ return (
         <div className="flex-1 min-w-0 items-center justify-center w-full h-full">
           <PromptInputTextarea
             onChange={(e) => {
-              console.log(e.target.value);
+              // console.log(e.target.value);
               setInput(e.target.value);
             }} //19:40
             value={input}
