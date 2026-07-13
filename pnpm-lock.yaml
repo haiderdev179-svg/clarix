@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@ai-sdk/langchain':
+        specifier: ^3.0.23
+        version: 3.0.23(@langchain/core@1.2.1(@opentelemetry/api@1.9.0)(openai@6.45.0(zod@4.3.6)))(@langchain/langgraph@1.4.7(@langchain/core@1.2.1(@opentelemetry/api@1.9.0)(openai@6.45.0(zod@4.3.6)))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(zod@4.3.6))(zod@4.3.6)
       '@ai-sdk/react':
         specifier: ^4.0.20
         version: 4.0.20(react@19.2.3)(zod@4.3.6)
@@ -182,6 +185,22 @@ packages:
     engines: {node: '>=22'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
+
+  '@ai-sdk/gateway@4.0.17':
+    resolution: {integrity: sha512-HSuJ+nsSYT2hk+dM3JQwfXdIJkzc3x4EyI4spiUgFiDY9OkCfHMjpLzikFy04FROuGynUFUGb3ycPxqlNwCdXA==}
+    engines: {node: '>=22'}
+    peerDependencies:
+      zod: ^3.25.76 || ^4.1.8
+
+  '@ai-sdk/langchain@3.0.23':
+    resolution: {integrity: sha512-1dB2IgdvxJ8Ptr/tu1fhAHtfjY0JOQ9Lp+mh0j9io3bs5BGFPINCFlqTVTJPoC0sRA5bpMH//hN8CE5w6nhyrg==}
+    engines: {node: '>=22'}
+    peerDependencies:
+      '@langchain/core': '>=1.0.0'
+      '@langchain/langgraph': '>=0.2.0'
+    peerDependenciesMeta:
+      '@langchain/langgraph':
+        optional: true
 
   '@ai-sdk/mcp@2.0.10':
     resolution: {integrity: sha512-LP47CEk3e6BwCqXamvv4nKbgOWQ5z5T/qS/J2fola5h98KTy7JT7I1yw5LKtB89MZBLviYmEh98Ep4ovHOz/vA==}
@@ -2650,6 +2669,12 @@ packages:
 
   ai@7.0.19:
     resolution: {integrity: sha512-7kxMNiy6JqCvruCY2qGMNzeqEt9Ey3XqrtYGHWyipDJTXHFN7gOyO1UR2UIXhw112vAUkrO+OJJzemKJD8P3bA==}
+    engines: {node: '>=22'}
+    peerDependencies:
+      zod: ^3.25.76 || ^4.1.8
+
+  ai@7.0.23:
+    resolution: {integrity: sha512-NKvz0zcuJ8Sb/ZP9E7q02pfXt4wMYvx5lQhZZa7NBCj0NPmNaFSKD8C8rezu21qHBnX/QkjcLbDmqTklh6nr0A==}
     engines: {node: '>=22'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
@@ -6028,6 +6053,22 @@ snapshots:
       '@vercel/oidc': 3.2.0
       zod: 4.3.6
 
+  '@ai-sdk/gateway@4.0.17(zod@4.3.6)':
+    dependencies:
+      '@ai-sdk/provider': 4.0.3
+      '@ai-sdk/provider-utils': 5.0.7(zod@4.3.6)
+      '@vercel/oidc': 3.2.0
+      zod: 4.3.6
+
+  '@ai-sdk/langchain@3.0.23(@langchain/core@1.2.1(@opentelemetry/api@1.9.0)(openai@6.45.0(zod@4.3.6)))(@langchain/langgraph@1.4.7(@langchain/core@1.2.1(@opentelemetry/api@1.9.0)(openai@6.45.0(zod@4.3.6)))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(zod@4.3.6))(zod@4.3.6)':
+    dependencies:
+      '@langchain/core': 1.2.1(@opentelemetry/api@1.9.0)(openai@6.45.0(zod@4.3.6))
+      ai: 7.0.23(zod@4.3.6)
+    optionalDependencies:
+      '@langchain/langgraph': 1.4.7(@langchain/core@1.2.1(@opentelemetry/api@1.9.0)(openai@6.45.0(zod@4.3.6)))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(zod@4.3.6)
+    transitivePeerDependencies:
+      - zod
+
   '@ai-sdk/mcp@2.0.10(zod@4.3.6)':
     dependencies:
       '@ai-sdk/provider': 4.0.3
@@ -8348,6 +8389,13 @@ snapshots:
   ai@7.0.19(zod@4.3.6):
     dependencies:
       '@ai-sdk/gateway': 4.0.15(zod@4.3.6)
+      '@ai-sdk/provider': 4.0.3
+      '@ai-sdk/provider-utils': 5.0.7(zod@4.3.6)
+      zod: 4.3.6
+
+  ai@7.0.23(zod@4.3.6):
+    dependencies:
+      '@ai-sdk/gateway': 4.0.17(zod@4.3.6)
       '@ai-sdk/provider': 4.0.3
       '@ai-sdk/provider-utils': 5.0.7(zod@4.3.6)
       zod: 4.3.6

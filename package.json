@@ -11,6 +11,7 @@
     "migration:migrate": "npx drizzle-kit migrate --config=drizzle.config.ts"
   },
   "dependencies": {
+    "@ai-sdk/langchain": "^3.0.23",
     "@ai-sdk/react": "^4.0.20",
     "@langchain/core": "^1.2.1",
     "@langchain/google-genai": "^2.2.0",
