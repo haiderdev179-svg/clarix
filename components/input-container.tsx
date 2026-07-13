@@ -16,6 +16,7 @@ import { DefaultChatTransport } from "ai";
 //uuid
 import{ v4 as uuidv4 } from 'uuid';
 import { threadId } from "worker_threads";
+import { useChatStore } from "@/store/chat-store";
 
 function InputContainer() {
 
@@ -34,30 +35,12 @@ function InputContainer() {
 
  const finalThreadId = finalThreadUrlId || generatedId;
 
-  //here we are customising useChat hook using transport
-  const { messages, sendMessage } = useChat({
-    id: "default",
-    transport: new DefaultChatTransport({
-      api: "/api/chat",
-      prepareSendMessagesRequest: ({ id, messages, messageId, body }) => {
-        const lastMessage = messages.slice(-1);
+//getting chatInstance from useChatStore
+ const {chatInstance} = useChatStore();
 
-        let lastMessageText = "";
-       const part = lastMessage[0]?.parts?.[0];
-       if (part?.type === "text") {
-         lastMessageText = part.text;
-       };
-
-        return {
-          body: {
-            messageContent: lastMessageText,
-            threadId: body?.threadId,
-          },
-        };
-    },
-    
-})
-});
+ const { messages, sendMessage } = useChat({
+  chat: chatInstance,
+ });
 
 return (
   <div className="flex flex-col items-center w-full max-w-200 mx-auto pb-6">
