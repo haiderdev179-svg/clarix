@@ -24,12 +24,11 @@ export const ChatInterfaceNew = () => {
           </main>
         </div>
       ) : (
-        <div className="flex flex-col flex-1 h-full w-full min-h-0 overflow-y-scroll">
-          <main className="h-full flex flex-col items-center  justify-end md:justify-center max-w-4xl mx-auto w-full px-4 -mt-20">
-            
+        <div className="flex flex-col flex-1 h-full w-full min-h-0 overflow-hidden">
+         
             <div className="flex flex-col w-full h-full ">
 
-               <div className="flex-1">
+               <div className="flex-1 min-h-0">
             {/* These messages are coming from useChat() through useChatInstance */}
                 <MessageRenderer messages={messages}/> 
                </div>
@@ -40,7 +39,6 @@ export const ChatInterfaceNew = () => {
 
             </div>
 
-          </main>
         </div>
       )}
     </>

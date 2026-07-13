@@ -18,8 +18,7 @@ import { MessageSquare } from "lucide-react";
 
 const MessageRenderer = ({messages}: {messages: UIMessage[]}) => {
   return (
-    <div>
-      <Conversation>
+      <Conversation className="h-full">
         <ConversationContent>
           {messages.length === 0 ? (
             <ConversationEmptyState
@@ -51,7 +50,6 @@ const MessageRenderer = ({messages}: {messages: UIMessage[]}) => {
         {/* <ConversationDownload messages={messages} /> */}
         <ConversationScrollButton />
       </Conversation>
-    </div>
   );
 }
 
