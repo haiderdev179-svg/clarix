@@ -54,6 +54,9 @@ export async function POST(request: Request) {
     messages: [new HumanMessage(messageContent)],
   }, {
     version: 'v2',  
+    configurable: {
+      thread_id: threadId,
+    }
   });
 
   // for (const message of result.messages) {

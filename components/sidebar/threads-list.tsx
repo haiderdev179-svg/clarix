@@ -17,6 +17,10 @@ type Thread = {
   id: string;
 };
 
+// make server call -> create api endpoint /api/threads - server actions 
+// fetch the list of threads -> call that endpoint -> fetch -> (tanstack query)
+// render those here in this component -> render response
+
 export function ThreadsLists() {
   const threadMenuContent = (
     <>
