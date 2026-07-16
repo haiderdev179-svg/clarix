@@ -3,11 +3,17 @@ import { Geist, Geist_Mono } from "next/font/google";
 
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme/theme-provider";
+import "streamdown/styles.css";
+import { QueryProvider } from "./query-provider";
+
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
+
+//22:50
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -25,11 +31,11 @@ export const metadata: Metadata = {
   keywords: "Clarix,clarix",
   authors: [
     {
-      name: "codersgyan",
+      name: "haiderally",
       url: BASE_URL,
     },
   ],
-  creator: "codersgyan",
+  creator: "haiderally",
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -62,9 +68,7 @@ export const metadata: Metadata = {
   manifest: `${BASE_URL}/site.webmanifest`,
 };
 
-import "streamdown/styles.css";
 
-import { Toaster } from "@/components/ui/sonner";
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -82,8 +86,10 @@ export default function RootLayout({
           defaultTheme="dark"
           enableSystem
           disableTransitionOnChange>
-          {children}
-          <Toaster />
+            <QueryProvider>
+              {children}
+             <Toaster />
+            </QueryProvider>
         </ThemeProvider>
       </body>
     </html>
