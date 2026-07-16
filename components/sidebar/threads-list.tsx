@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 import { Skeleton } from "../ui/skeleton";
 import { useQuery } from "@tanstack/react-query";
 import { fetchThreads } from "@/lib/threads";
+import Link from "next/link";
 
 type Thread = {
   title: string;
@@ -23,6 +24,7 @@ type Thread = {
 
 
 export function ThreadsLists() {
+
   
   //userQuery hook is used for fetching data
 const { data, isLoading, isError, error} = useQuery<Thread[]>({
@@ -30,7 +32,7 @@ const { data, isLoading, isError, error} = useQuery<Thread[]>({
     queryFn: ()=> fetchThreads(),
   });   
 
-  // console.log('query: ', data);
+  console.log('query: ', data);
 
   // make server call -> create api endpoint /api/threads - server actions 
   // fetch the list of threads -> call that endpoint -> fetch -> (tanstack query)
@@ -65,8 +67,9 @@ if (isLoading) {
       return (
         <SidebarMenuItem
           key={thread.id}
-          className="group/item relative pointer-events-none"
+          className="group/item relative"
         >
+          <Link href={`/chat/${thread.id}`}>          
           <SidebarMenuButton
             className={cn(
               "h-9 rounded-lg transition-all px-3 pr-10 cursor-pointer",
@@ -75,6 +78,7 @@ if (isLoading) {
           >
             <span>{thread.title}</span>
           </SidebarMenuButton>
+          </Link>
         </SidebarMenuItem>
       );
     })
