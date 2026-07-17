@@ -1,0 +1,36 @@
+import { db } from "@/db";
+import { thread } from "@/db/schema/chat-schema";
+import { BaseMessage, mapChatMessagesToStoredMessages } from "@langchain/core/messages";
+import { and, eq } from "drizzle-orm";
+
+export async function getMessageHistory(
+    {
+        graph,
+        threadId,
+        userId,
+    }: {graph: any, threadId: string, userId: string,}
+) {
+
+
+
+    //todo: check ownership (here we verifying the user id & thread id from current session with the user id & thread id stored in database)
+    const existingThreads = await db.select().from(thread).where(and(eq(thread.id, threadId), eq(thread.userId, userId))).limit(1);
+
+    const isOwner = existingThreads.length > 0;
+
+    if(!isOwner) return [];
+
+    const config = {configurable:  {thread_id: threadId}};
+
+    const state = await graph.getState(config);
+
+    //getting the messages 
+    const messages = state?.values?.messages as BaseMessage[] ?? [];
+    // console.log(JSON.stringify(state, null, 2));
+    
+    const serializedMessages = mapChatMessagesToStoredMessages(messages);
+    
+    return  serializedMessages;
+
+
+}
