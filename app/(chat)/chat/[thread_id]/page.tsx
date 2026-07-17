@@ -6,7 +6,6 @@ import { auth } from "@/lib/auth";
 import { getMessageHistory } from "@/lib/conversation";
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
-import { db } from "@/db"
 
 export default async function Page({
   params,
