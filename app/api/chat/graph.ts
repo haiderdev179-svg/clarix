@@ -4,7 +4,7 @@ import { AIMessage, SystemMessage } from "@langchain/core/messages"
 import { getDynamicModel } from "./model";
 import { PostgresSaver } from "@langchain/langgraph-checkpoint-postgres"
 import { ToolNode } from "@langchain/langgraph/prebuilt"
-import { tools } from "./tool";
+import { productTool, tools } from "./tool";
 
 const llmCall: GraphNode<typeof MessagesState> = async (state) => {
   
@@ -42,7 +42,7 @@ function shouldContinue(state: typeof MessagesState.State) {
 };
 
 //Tool Calling
-// const tools = [productTool]
+const tools = [productTool]
 const toolNode = new ToolNode(tools);
 
 //Building Graph 

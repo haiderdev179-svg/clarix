@@ -62,11 +62,11 @@ export const productTool = tool(
                             thumbnail: product.thumbnail,
                             product_link:
                                 product.product_link +
-                                "&utm_source=codersgpt.com",
+                                "&utm_source=clarix.com",
                         };
                     },
                 );
-
+ 
             return {
                 query,
                 products,
@@ -96,7 +96,7 @@ export const productTool = tool(
                 .string()
                 .optional()
                 .describe(
-                    "The location of the user for query search. Include this field only if user asks it explicitely e.g., `India`",
+                    "The location of the user for query search. Include this field only if user asks it explicitely e.g., `Pakistan`",
                 ),
         }),
     },
