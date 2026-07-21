@@ -42,7 +42,7 @@ function shouldContinue(state: typeof MessagesState.State) {
 };
 
 //Tool Calling
-const tools = [productTool]
+// const tools = [productTool]
 const toolNode = new ToolNode(tools);
 
 //Building Graph 

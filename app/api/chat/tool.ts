@@ -25,8 +25,8 @@ type Product = {
 export const productTool = tool(
     async ({ query, location = "Pakistan" }) => {
         try {
-            console.log("query:", query);   
-            console.log("Location:", location);
+            // console.log("query:", query);   
+            // console.log("Location:", location);
 
             // search products on the internet.
             const response = await getJson({

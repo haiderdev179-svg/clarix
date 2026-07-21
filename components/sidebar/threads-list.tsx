@@ -32,7 +32,7 @@ const { data, isLoading, isError, error} = useQuery<Thread[]>({
     queryFn: ()=> fetchThreads(),
   });   
 
-  console.log('query: ', data);
+  // console.log('query: ', data);
 
   // make server call -> create api endpoint /api/threads - server actions 
   // fetch the list of threads -> call that endpoint -> fetch -> (tanstack query)

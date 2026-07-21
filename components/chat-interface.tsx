@@ -17,6 +17,8 @@ export const ChatInterfaceNew = ({oldMessages}: {oldMessages: StoredMessage[]}) 
   const { messages } = useChat({ chat: chatInstance });
   // console.log("messages", messages);
 
+//   console.log("convertedOldMessages", convertedOldMessages);
+// console.log("messages", messages);
   return (
     <>
       {messages.length === 0 && convertedOldMessages.length === 0 ? (

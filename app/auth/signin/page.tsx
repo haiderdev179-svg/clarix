@@ -49,7 +49,7 @@ export default function LoginForm() {
       onChange: formSchema,
     },
     onSubmit: async ({ value }) => {
-       console.log('value', value)
+      //  console.log('value', value)
  
       const { data, error } = await authClient.signIn.email(
         {

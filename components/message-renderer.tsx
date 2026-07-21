@@ -33,10 +33,9 @@ const MessageRenderer = ({messages}: {messages: UIMessage[]}) => {
                     switch (part.type) {
                       case "text": // we don't use any reasoning or tool calls in this example
                         return (
-                       []
-                          // <MessageResponse key={`${message.id}-${i}`}>
-                          //   {part.text}
-                          // </MessageResponse>
+                          <MessageResponse key={`${message.id}-${i}`}>
+                            {part.text}
+                          </MessageResponse>
                         );
                          default:  
                           return "Tool result goes here"

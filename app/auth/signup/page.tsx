@@ -52,7 +52,7 @@ export default function SignupForm() {
       onChange: signupSchema,
     },
     onSubmit: async ({ value }) => {
-      console.log('value', value)
+      // console.log('value', value)
  
       const { data, error } = await authClient.signUp.email(
         {
