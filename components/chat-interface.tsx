@@ -38,7 +38,7 @@ export const ChatInterfaceNew = ({oldMessages}: {oldMessages: StoredMessage[]}) 
                <div className="flex-1 min-h-0">
             {/* These messages are coming from useChat() through useChatInstance */}
             <Conversation className="h-full">
-        <ConversationContent>
+        <ConversationContent className="max-w-200 px-4 pt-4 mx-auto">
                 <MessageRenderer messages={convertedOldMessages}/> 
                 <MessageRenderer messages={messages}/> 
                  </ConversationContent>
