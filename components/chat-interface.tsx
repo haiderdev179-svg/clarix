@@ -42,7 +42,7 @@ export const ChatInterfaceNew = ({oldMessages}: {oldMessages: StoredMessage[]}) 
                 <MessageRenderer messages={convertedOldMessages}/> 
                 <MessageRenderer messages={messages}/> 
                  </ConversationContent>
-                      </Conversation>
+                      </Conversation>   
                </div>
 
                <div>
