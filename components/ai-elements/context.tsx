@@ -358,8 +358,10 @@ export const ContextCacheUsage = ({
   ...props
 }: ContextCacheUsageProps) => {
   const { usage, modelId } = useContextValue();
-  const cacheTokens = usage?.cachedInputTokens ?? 0;
 
+  // CHANGED: cachedInputTokens is nested under inputTokenDetails.cacheReadTokens in this SDK version
+  const cacheTokens = usage?.inputTokenDetails?.cacheReadTokens ?? 0;
+  
   if (children) {
     return children;
   }
@@ -388,7 +390,7 @@ export const ContextCacheUsage = ({
       <TokensWithCost costText={cacheCostText} tokens={cacheTokens} />
     </div>
   );
-};
+};;
 
 const TokensWithCost = ({
   tokens,

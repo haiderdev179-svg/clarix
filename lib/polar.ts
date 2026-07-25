@@ -9,7 +9,7 @@ type ingestData = {
 }
 
 export async function ingestEventToPolar(data: ingestData){
-    await polarClient.events.ingest({
+    const result = await polarClient.events.ingest({
         events: [
             {
                 name: "llm_tokens",

@@ -145,6 +145,8 @@ export const SpeechInput = ({
         i += 1
       ) {
         const result = speechEvent.results[i];
+         // CHANGED: guard against possibly-undefined array access
+        if (!result) continue;
         if (result.isFinal) {
           finalTranscript += result[0]?.transcript ?? "";
         }
