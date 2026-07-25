@@ -7,6 +7,7 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { createUIMessageStreamResponse } from "ai";
 import { toUIMessageStream } from "@ai-sdk/langchain";
+import { waitUntil} from "@vercel/functions";
 
 export async function POST(request: Request) {
 
@@ -39,13 +40,13 @@ export async function POST(request: Request) {
       const title = messageContent.trim().slice(0, 20) || "New Conversation" //if anything appears in the thread we are selecting first 20characters as title
 
       //inserting this to database
-      await db.insert(thread).values({
+        await db.insert(thread).values({
         id: threadId,
         title: title,
         userId: authData.user.id,
-      });
-  };
-
+      })
+};
+ 
   //checking if the thread is from the same user
   if (existingThread && existingThread?.userId !== authData.user.id) {
     return new Response("Forbidden: You don't have access to this response☹️", { status: 403 })

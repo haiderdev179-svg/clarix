@@ -27,19 +27,24 @@ const llmCall: GraphNode<typeof MessagesState> = async (state, runtime) => {
 
   const usage = response.usage_metadata;
 
-  // CHANGED: wrapped in try/catch so a Polar failure can't break the chat response
-  try {
-    await ingestEventToPolar({
-      userId,
-      model: selectedModel,
-      inputTokens: usage?.input_tokens || 0,
-      outputTokens: usage?.output_tokens || 0,
-      totalTokens: usage?.total_tokens || 0,
-    });
-  } catch (err) {
-    console.error("Polar usage ingestion failed:", err);
-    // TODO: consider a retry queue or dead-letter log here later — not tonight
-  }
+// CHANGED: waitUntil makes this non-blocking (LLM response doesn't wait on Polar);
+  // try/catch must live INSIDE the callback since waitUntil doesn't propagate errors outward
+  waitUntil(
+    (async () => {
+      try {
+        await ingestEventToPolar({
+          userId,
+          model: selectedModel,
+          inputTokens: usage?.input_tokens || 0,
+          outputTokens: usage?.output_tokens || 0,
+          totalTokens: usage?.total_tokens || 0,
+        });
+      } catch (err) {
+        console.error("Polar usage ingestion failed:", err);
+        // TODO: consider a retry queue or dead-letter log here later — not tonight
+      }
+    })()
+  );
 
   return {
     messages: [response],
