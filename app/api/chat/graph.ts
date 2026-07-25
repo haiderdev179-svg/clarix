@@ -64,11 +64,14 @@ const checkpointer = PostgresSaver.fromConnString(process.env.DATABASE_URL!);
 function shouldContinue(state: typeof MessagesState.State) {
   const lastMessage = state.messages.at(-1);
 
-  if (lastMessage && "tool_calls" in lastMessage && lastMessage.tool_calls?.length) {
-    return "tools";
+  if (lastMessage && "tool_calls" in lastMessage) {
+    const toolCalls = (lastMessage as AIMessage).tool_calls;
+    if (toolCalls?.length) {
+      return "tools";
+    }
   }
 
-  return "__end__";
+  return "__end__"; 
 };
 
 //Tool Calling
