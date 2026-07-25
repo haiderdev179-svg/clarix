@@ -318,8 +318,8 @@ export const ContextReasoningUsage = ({
   ...props
 }: ContextReasoningUsageProps) => {
   const { usage, modelId } = useContextValue();
-  const reasoningTokens = usage?.reasoningTokens ?? 0;
-
+  // CHANGED: reasoningTokens is nested under outputTokenDetails in this SDK version, not a top-level field
+  const reasoningTokens = usage?.outputTokenDetails?.reasoningTokens ?? 0;
   if (children) {
     return children;
   }
@@ -348,7 +348,7 @@ export const ContextReasoningUsage = ({
       <TokensWithCost costText={reasoningCostText} tokens={reasoningTokens} />
     </div>
   );
-};
+};;
 
 export type ContextCacheUsageProps = ComponentProps<"div">;
 
