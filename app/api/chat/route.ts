@@ -12,6 +12,9 @@ export async function POST(request: Request) {
 
   const {threadId, messageContent} = await request.json();
 
+  //todo: receive this from frontend
+  const selectModel = "gpt-5-mini"
+
   //Getting user id (from better-auth using loggedIn user session) for matching with the threadId
   const authData = await auth.api.getSession({headers: await headers()});
 
@@ -56,7 +59,11 @@ export async function POST(request: Request) {
     version: 'v2',  
     configurable: {
       thread_id: threadId,
-    }
+    },
+    context: {
+      userId: authData.user.id,
+      selectedModel: selectModel,
+    },
   });
 
   // for (const message of result.messages) {

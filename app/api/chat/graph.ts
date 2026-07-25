@@ -5,11 +5,15 @@ import { getDynamicModel } from "./model";
 import { PostgresSaver } from "@langchain/langgraph-checkpoint-postgres"
 import { ToolNode } from "@langchain/langgraph/prebuilt"
 import { productTool, tools } from "./tool";
+import { ingestEventToPolar } from "@/lib/polar"
 
-const llmCall: GraphNode<typeof MessagesState> = async (state) => {
+const llmCall: GraphNode<typeof MessagesState> = async (state, runtime) => {
   
   //todo: receive this model id from frontend
-  const model = getDynamicModel("gpt-5-nano");
+  const selectedModel = runtime.context?.selectedModel;
+  const userId = runtime.context?.userId;
+
+  const model = getDynamicModel(selectedModel);
 
   const modelWithTools = model.bindTools(tools);
 
@@ -17,6 +21,26 @@ const llmCall: GraphNode<typeof MessagesState> = async (state) => {
     new SystemMessage("You are a helpful assistant."),
     ...state.messages,
   ]);
+
+  //todo: emit the event to polar
+ console.log(response);
+
+  const usage = response.usage_metadata;
+
+  // CHANGED: wrapped in try/catch so a Polar failure can't break the chat response
+  try {
+    await ingestEventToPolar({
+      userId,
+      model: selectedModel,
+      inputTokens: usage?.input_tokens || 0,
+      outputTokens: usage?.output_tokens || 0,
+      totalTokens: usage?.total_tokens || 0,
+    });
+  } catch (err) {
+    console.error("Polar usage ingestion failed:", err);
+    // TODO: consider a retry queue or dead-letter log here later — not tonight
+  }
+
   return {
     messages: [response],
   };
