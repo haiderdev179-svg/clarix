@@ -6,6 +6,7 @@ import { PostgresSaver } from "@langchain/langgraph-checkpoint-postgres"
 import { ToolNode } from "@langchain/langgraph/prebuilt"
 import { productTool, tools } from "./tool";
 import { ingestEventToPolar } from "@/lib/polar"
+import { waitUntil } from "@vercel/functions";
 
 const llmCall: GraphNode<typeof MessagesState> = async (state, runtime) => {
   
