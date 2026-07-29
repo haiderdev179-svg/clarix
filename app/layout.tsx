@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: TITLE,
     description: DESCRIPTION,
-    creator: "@codersgyan",
+    creator: "@haiderdev179@gmail.com",
     images: [`${BASE_URL}/og.jpg`],
   },
   icons: {

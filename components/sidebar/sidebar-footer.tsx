@@ -34,8 +34,8 @@ export function SidebarFooterComponent() {
   const isPending = false;
 
   const user = {
-    name: "codersgyan",
-    email: "codersgyan@gmail.com",
+    name: "haiderally",
+    email: "haiderdev179@gmail.com",
     image: "/logo.png",
   };
 
