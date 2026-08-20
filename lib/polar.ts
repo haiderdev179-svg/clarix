@@ -1,4 +1,7 @@
-import { polarClient } from "./auth";
+"use server"
+
+import { headers } from "next/headers";
+import { auth, polarClient } from "./auth";
 
 type ingestData = {
     userId: string;
@@ -6,6 +9,24 @@ type ingestData = {
     inputTokens: number;
     outputTokens: number;
     totalTokens: number;
+};
+
+export async function getCustomMeters(){
+
+    const session = await auth.api.getSession({
+        headers: await headers(),
+    });
+
+    if(!session){
+        throw new Error("User is not authenticated");
+    };
+
+    const meters = await polarClient.customerMeters.list({
+        externalCustomerId: session.user.id,
+    });
+
+    // console.log(meters.result.items);
+    return meters.result.items[0];
 }
 
 export async function ingestEventToPolar(data: ingestData){

@@ -60,7 +60,7 @@ const checkpointer = PostgresSaver.fromConnString(process.env.DATABASE_URL!);
 // (async ()=> {
 //   await checkpointer.setup();
 // })();
-
+9
 function shouldContinue(state: typeof MessagesState.State) {
   const lastMessage = state.messages.at(-1);
 

@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Skeleton } from "../ui/skeleton";
 import { Spinner } from "../ui/spinner";
+import Link from "next/link";
 
 export function SidebarFooterComponent() {
   const { isMobile } = useSidebar();
@@ -99,8 +100,10 @@ export function SidebarFooterComponent() {
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
                 <DropdownMenuItem>
+                  <Link href="/profile" className="flex items-center gap-2">
                   <BadgeCheck />
                   Account
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <CreditCard />
