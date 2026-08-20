@@ -97,7 +97,9 @@ export default function ChatbotUserProfile() {
               </Button>
             )}
 
-            <Button variant="outline" className="rounded-xl">
+            <Button onClick={async ()=> {
+              await authClient.customer.portal(); 
+            }} variant="outline" className="rounded-xl">
               Manage Billing
             </Button>
           </div>
