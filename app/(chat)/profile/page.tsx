@@ -15,14 +15,20 @@ import { Button } from "@/components/ui/button";
 import { CalendarDays, ShieldCheck, Sparkles, Zap } from "lucide-react";
 import { authClient } from "@/lib/authClient";
 import { useQuery } from "@tanstack/react-query";
-import { getCustomMeters } from "@/lib/polar";
+import { getCustomMeters, isUserHaveSubscription } from "@/lib/polar";
 
 export default function ChatbotUserProfile() {
-  // ── Static user data (replace with auth session later) ──
   
   // --Getting the logged in user data from betterAuth
- const { data: session, isPending } = authClient.useSession();
-//  console.log("User data from betterAuth:", data, isPending);
+ const { data: session } = authClient.useSession();
+
+  const {data: isProSubscription, isPending} = useQuery({
+          queryKey: ["customer_subscription"],
+          queryFn: async () => {
+            return isUserHaveSubscription(); 
+          },
+         });
+  
 
    const { data: usageData, isSuccess: isUsageDataSuccess } = useQuery({
     queryKey: ["customer_meters"],
@@ -38,18 +44,7 @@ export default function ChatbotUserProfile() {
 
  const user = session.user;
 
-  // const user = {
-  //   name: "Jane Doe",
-  //   email: "jane.doe@example.com",
-  //   image: "/logo.png",
-  // };
 
-  // ── Static subscription state (replace with API call later) ──
-  const isProSubscription = true;
-
-
-  // const usagePercent =
-  //   (usageData.consumedUnits / usageData.creditedUnits) * 100;
 
   return (
     <div className="w-full max-w-5xl mx-auto space-y-6 p-4">
@@ -88,15 +83,17 @@ export default function ChatbotUserProfile() {
           </div>
 
           <div className="flex gap-3">
-            {isProSubscription ? (
+            {!isProSubscription && !isPending ? (
+              <Button onClick={async()=> {
+                await authClient.checkout({slug: 'Pro'})
+              }}>
+                <Sparkles />
+                Upgrade to Pro
+              </Button>
+            ) : (
               <Button className="bg-[#373669] border-[#3e3e4a] text-white hover:bg-[#373669]/90 text-[12px] font-medium">
                 <Sparkles />
                 Pro Member
-              </Button>
-            ) : (
-              <Button>
-                <Sparkles />
-                Upgrade to Pro
               </Button>
             )}
 

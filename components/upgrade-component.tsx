@@ -1,10 +1,27 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/authClient";
+import { isUserHaveSubscription } from "@/lib/polar";
+import { useQuery } from "@tanstack/react-query";
+
+
+ 
+  
 
 export function UpgradeComponent() {
+
+    const {data: isProSubscription, isPending }= useQuery({
+          queryKey: ["customer_subscription"],
+          queryFn: async () => {
+            return isUserHaveSubscription(); 
+          },
+         });
+
   return (
-    <div className="absolute left-1/2 -translate-x-1/2">
+     <>
+     {
+      !isProSubscription && !isPending && (
+          <div className="absolute left-1/2 -translate-x-1/2">
       <Button
         onClick={async () => {
           await authClient.checkout({
@@ -21,5 +38,8 @@ export function UpgradeComponent() {
         ✦ Get Plus
       </Button>
     </div>
+      )
+     }
+     </>
   );
 }

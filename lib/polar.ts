@@ -11,6 +11,31 @@ type ingestData = {
     totalTokens: number;
 };
 
+
+export async function isUserHaveSubscription(){
+    try {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session?.user.id) {
+    return false;
+  }
+
+  const data = await polarClient.subscriptions.list({
+    externalCustomerId: session.user.id,
+    active: true,
+  });
+
+  return data.result.items.length > 0
+
+} catch (error) {
+  console.log("erx", error);
+  return false;
+}
+}
+
+
 export async function getCustomMeters(){
 
     const session = await auth.api.getSession({
