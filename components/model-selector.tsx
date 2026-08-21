@@ -62,45 +62,43 @@ interface ModelItemProps {
   isLocked: boolean;
 }
 
-const ModelItem = ( 
-  ({ model, selectedModel, onSelect, isLocked }: ModelItemProps) => {
-    const handleSelect = useCallback(() => {
-      // Prevent selection if the model is locked
-      if (isLocked) return;
-      onSelect(model.id);
-    }, [onSelect, model.id, isLocked]);
+const ModelItem = ({ model, selectedModel, onSelect, isLocked }: ModelItemProps) => {
+  const handleSelect = useCallback(() => {
+    // Prevent selection if the model is locked
+    if (isLocked) return;
+    onSelect(model.id);
+  }, [onSelect, model.id, isLocked]);
 
-    return (
-      <ModelSelectorItem
-        key={model.id}
-        onSelect={handleSelect}
-        value={model.id}
-        disabled={isLocked}
-        className={cn(
-          "flex items-center gap-2",
-          isLocked && "opacity-50 cursor-not-allowed text-muted-foreground",
-        )}
-      >
-        <ModelSelectorLogo provider={model.chefSlug} />
-        <ModelSelectorName>{model.name}</ModelSelectorName>
-        <ModelSelectorLogoGroup className={cn(isLocked && "opacity-50")}>
-          {model.providers.map((provider) => (
-            <ModelSelectorLogo key={provider} provider={provider} />
-          ))}
-        </ModelSelectorLogoGroup>
+  return (
+    <ModelSelectorItem
+      key={model.id}
+      onSelect={handleSelect}
+      value={model.id}
+      disabled={isLocked}
+      className={cn(
+        "flex items-center gap-2",
+        isLocked && "opacity-50 cursor-not-allowed text-muted-foreground",
+      )}
+    >
+      <ModelSelectorLogo provider={model.chefSlug} />
+      <ModelSelectorName>{model.name}</ModelSelectorName>
+      <ModelSelectorLogoGroup className={cn(isLocked && "opacity-50")}>
+        {model.providers.map((provider) => (
+          <ModelSelectorLogo key={provider} provider={provider} />
+        ))}
+      </ModelSelectorLogoGroup>
 
-        {/* Status Indicators */}
-        <div className="ml-auto flex items-center justify-end w-5">
-          {isLocked ? (
-            <Lock className="size-4 text-muted-foreground" />
-          ) : selectedModel === model.id ? (
-            <CheckIcon className="size-4" />
-          ) : null}
-        </div>
-      </ModelSelectorItem>
-    );
-  },
-);
+      {/* Status Indicators */}
+      <div className="ml-auto flex items-center justify-end w-5">
+        {isLocked ? (
+          <Lock className="size-4 text-muted-foreground" />
+        ) : selectedModel === model.id ? (
+          <CheckIcon className="size-4" />
+        ) : null}
+      </div>
+    </ModelSelectorItem>
+  );
+};
 
 ModelItem.displayName = "ModelItem";
 
