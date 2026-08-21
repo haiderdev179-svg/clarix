@@ -4,7 +4,7 @@ import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 type ModelProvider =  'openai' | 'google' | 'anthropic';
 type ModelTier = 'free' | 'subscription' ;
 
-type ModelId = 'gpt-5-mini' | 'gpt-5-nano' | 'gemini-3.1-pro-preview' | 'gemini-2.0-flash';
+export type ModelId = 'gpt-5-mini' | 'gpt-5-nano' | 'gemini-3.1-pro-preview' | 'gemini-2.0-flash';
 
 type ModelConfig = {
     provider: ModelProvider;
@@ -12,7 +12,7 @@ type ModelConfig = {
     options?: Record<string, unknown>
 }
 
-const MODEL_REGISTRY : Record<ModelId, ModelConfig> = {
+export const MODEL_REGISTRY : Record<ModelId, ModelConfig> = {
     'gpt-5-mini': {
         provider: 'openai',
         tier: 'free',
@@ -71,12 +71,7 @@ function createModel(modelId: ModelId, config: ModelConfig){
 
 export function getDynamicModel(modelId: ModelId){
   const config = MODEL_REGISTRY[modelId];
-
   if(!config) return getDefaultModel();
-
-  if(config.tier === 'subscription'){
-    //todo: get subscription information from db  
-  };
 
   return createModel(modelId, config);
 };

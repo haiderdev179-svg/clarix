@@ -40,9 +40,14 @@ function InputContainer() {
 //getting chatInstance from useChatStore
  const {chatInstance} = useChatStore();
 
- const { messages, sendMessage } = useChat({
+ const { messages, sendMessage, error } = useChat({
   chat: chatInstance,
  });
+
+ if (error) {
+  alert("Error: " + error.message);
+  return <div className="text-red-500">Error: {error.message}</div>;
+}
 
 return (
   <div className="flex flex-col items-center w-full max-w-200 mx-auto pb-6">

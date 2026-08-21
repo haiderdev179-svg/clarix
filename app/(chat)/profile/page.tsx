@@ -118,7 +118,7 @@ export default function ChatbotUserProfile() {
             <div className="flex items-center justify-between">
               <span className="text-sm text-muted-foreground">Plan</span>
               <Badge className="rounded-xl">
-                {isProSubscription ? "CodersGPT Pro" : "Inactive"}
+                {isProSubscription ? "Clarix Pro" : "Inactive"}
               </Badge>
             </div>
 
