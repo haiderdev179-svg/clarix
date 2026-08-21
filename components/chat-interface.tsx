@@ -7,21 +7,23 @@ import MessageRenderer from "./message-renderer";
 import { StoredMessage } from "@langchain/core/messages";
 import { convertLangChainToUI } from "@/lib/converters";
 import { Conversation, ConversationContent } from "./ai-elements/conversation";
+import { useEffect } from "react";
 
 export const ChatInterfaceNew = ({oldMessages}: {oldMessages: StoredMessage[]}) => {
-  //getting chatInstance from useChatStore
   const { chatInstance } = useChatStore();
+  const { messages, setMessages } = useChat({ chat: chatInstance });
 
-  const convertedOldMessages = convertLangChainToUI(oldMessages);
+  //Clearing chatInstance messages when user navigates to new thread conversation page
+  useEffect(()=> {
+    const convertedOldMessages = convertLangChainToUI(oldMessages);
+    setMessages(convertedOldMessages);
+  },[oldMessages, setMessages]);
 
-  const { messages } = useChat({ chat: chatInstance });
-  // console.log("messages", messages);
 
-//   console.log("convertedOldMessages", convertedOldMessages);
-// console.log("messages", messages);
+
   return (
     <>
-      {messages.length === 0 && convertedOldMessages.length === 0 ? (
+      {messages.length === 0 && messages.length === 0 ? (
         <div className="flex flex-col flex-1 h-full w-full min-h-0 overflow-y-scroll">
           <main className="h-full flex flex-col items-center  justify-end md:justify-center max-w-4xl mx-auto w-full px-4 -mt-20">
             <h1 className="text-3xl font-normal mb-8 tracking-tight text-white">
@@ -39,7 +41,6 @@ export const ChatInterfaceNew = ({oldMessages}: {oldMessages: StoredMessage[]}) 
             {/* These messages are coming from useChat() through useChatInstance */}
             <Conversation className="h-full">
         <ConversationContent className="max-w-200 px-4 pt-4 mx-auto">
-                <MessageRenderer messages={convertedOldMessages}/> 
                 <MessageRenderer messages={messages}/> 
                  </ConversationContent>
                       </Conversation>   
