@@ -25,6 +25,7 @@ function createChat(){
                  body: {
                    messageContent: lastMessageText,
                    threadId: body?.threadId,
+                    selectedModel: body?.selectedModel,
                  },
                };
            }, 

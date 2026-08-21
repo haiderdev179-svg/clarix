@@ -11,10 +11,7 @@ import { waitUntil} from "@vercel/functions";
 
 export async function POST(request: Request) {
 
-  const {threadId, messageContent} = await request.json();
-
-  //todo: receive this from frontend
-  const selectModel = "gpt-5-mini"
+  const {threadId, messageContent, selectedModel} = await request.json();
 
   //Getting user id (from better-auth using loggedIn user session) for matching with the threadId
   const authData = await auth.api.getSession({headers: await headers()});
@@ -63,7 +60,7 @@ export async function POST(request: Request) {
     },
     context: {
       userId: authData.user.id,
-      selectedModel: selectModel,
+      selectedModel: selectedModel, 
     },
   });
 
