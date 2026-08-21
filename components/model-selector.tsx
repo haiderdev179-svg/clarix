@@ -2,6 +2,7 @@
 
 import { memo, useCallback, useState } from "react";
 import { CheckIcon, Lock } from "lucide-react";
+import { useChatStore } from "@/store/chat-store";
 
 import {
   ModelSelector,
@@ -61,7 +62,7 @@ interface ModelItemProps {
   isLocked: boolean;
 }
 
-const ModelItem = memo(
+const ModelItem = ( 
   ({ model, selectedModel, onSelect, isLocked }: ModelItemProps) => {
     const handleSelect = useCallback(() => {
       // Prevent selection if the model is locked
@@ -105,11 +106,10 @@ ModelItem.displayName = "ModelItem";
 
 export const ModelSelectorComponent = () => {
   const [open, setOpen] = useState(false);
-  
-  const selectedModel = "gpt-5-mini"
-  const setSelectedModel = (modelId:string)=>{
 
-  }
+  const {selectedModel, setSelectedModel } = useChatStore()
+  
+
   const userHaveProPlan = false;
   const handleModelSelect = useCallback((id: string) => {
     setSelectedModel(id);
