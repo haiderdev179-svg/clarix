@@ -28,16 +28,20 @@ import {
 import { Skeleton } from "../ui/skeleton";
 import { Spinner } from "../ui/spinner";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/authClient";
 
 export function SidebarFooterComponent() {
   const { isMobile } = useSidebar();
+  const router = useRouter();
+  const { data: session, isPending } = authClient.useSession();
 
-  const isPending = false;
 
-  const user = {
-    name: "haiderally",
-    email: "haiderdev179@gmail.com",
-    image: "/logo.png",
+  const user = session?.user;
+
+  const handleLogout = async () => {
+    await authClient.signOut();
+    router.push("/");
   };
 
   return (
@@ -56,7 +60,7 @@ export function SidebarFooterComponent() {
                   </div>
                 ) : (
                   <Avatar className="h-8 w-8 rounded-lg">
-                    <AvatarImage src={user.image} alt={user.name} />
+                    <AvatarImage src={user.image ?? undefined} alt={user.name} />
                     <AvatarFallback>
                       <Skeleton className="h-full w-full rounded-full" />
                     </AvatarFallback>
@@ -79,7 +83,7 @@ export function SidebarFooterComponent() {
               <DropdownMenuLabel className="p-0 font-normal">
                 <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                   <Avatar className="h-8 w-8 rounded-lg">
-                    <AvatarImage src={user.image} alt={user.name} />
+                     <AvatarImage src={user.image ?? undefined} alt={user.name} />
                     <AvatarFallback>
                       <Skeleton className="h-full w-full rounded-full" />
                     </AvatarFallback>
@@ -115,7 +119,7 @@ export function SidebarFooterComponent() {
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => {}}>
+            <DropdownMenuItem onClick={handleLogout}>
                 <LogOut />
                 Log out
               </DropdownMenuItem>
